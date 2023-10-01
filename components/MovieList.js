@@ -10,15 +10,11 @@ import {
 import React from "react";
 // import { moviesData } from "../constants";
 import { useNavigation } from "@react-navigation/native";
-// import {
-//   fallbackMoviePoster,
-//   image185,
-//   image342,
-//   poster342,
-// } from "../api/moviedb";
+import { baseImagePath } from "../api/tmdb";
 import { styles } from "../theme";
 const { width, height } = Dimensions.get("window");
 import { SIZES } from "../constants";
+import tw from "twrnc";
 
 export default function MovieList({ title, data }) {
   const navigation = useNavigation();
@@ -29,14 +25,14 @@ export default function MovieList({ title, data }) {
 
   return (
     <View
-      // className="mb-8 space-y-4"
+      // style={tw`mb-8 space-y-4"
       style={{
         marginBottom: 8,
         marginVertical: 4,
         backgroundColor: "black",
       }}>
       <View
-        // className="mx-4 flex-row justify-between items-center"
+        // style={tw`mx-4 flex-row justify-between items-center"
         style={{
           marginHorizontal: 4,
           flexDirection: "row",
@@ -44,7 +40,7 @@ export default function MovieList({ title, data }) {
           alignContent: "center",
         }}>
         <Text
-          // className="text-white text-lg"
+          // style={tw`text-white text-lg"
           style={{
             color: "white",
             fontSize: 20,
@@ -55,7 +51,7 @@ export default function MovieList({ title, data }) {
         {/* <TouchableOpacity>
           <Text
             style={[styles.text, { fontSize: 17 }]}
-            // className="text-lg"
+            // style={tw`text-lg"
           >
             See All
           </Text>
@@ -72,26 +68,31 @@ export default function MovieList({ title, data }) {
             <TouchableWithoutFeedback
               key={index}
               onPress={() => navigation.navigate("MovieScreen", item)}>
-              <View className="space-y-1 mr-4">
+              <View
+              // style={tw`space-y-1 mr-4`}
+              >
                 <Image
-                  source={require("../assets/images/LegoNinjagoMoviePoster.jpg")}
-                  // source={{
-                  //   uri: image185(item.poster_path) || fallbackMoviePoster,
-                  // }}
-                  // className="rounded-3xl"
+                  // source={require("../assets/images/LegoNinjagoMoviePoster.jpg")}
+                  source={{ uri: baseImagePath(item.poster_path) }}
+                  // style={tw`rounded-3xl"
                   style={{
                     width: width * 0.33,
                     height: height * 0.22,
                     borderRadius: 20,
+                    marginHorizontal: 4,
                   }}
                 />
                 <Text
-                  // className="text-neutral-300 ml-1"
+                  // style={tw`text-neutral-300 ml-1"
                   style={{
-                    color: "white",
+                    color: "#AAAAAA",
                     alignItems: "center",
+                    width: width * 0.33,
+                    fontWeight: "bold",
                   }}>
-                  {title.length > 14 ? title.slice(0, 14) + "..." : title}
+                  {item.title.length > 14
+                    ? item.title.slice(0, 11) + "..."
+                    : item.title}
                 </Text>
               </View>
             </TouchableWithoutFeedback>

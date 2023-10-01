@@ -10,15 +10,16 @@ import {
   fetchNowPlayingMovies,
   fetchPopularMovies,
   fetchTopRatedMovies,
+  fetchUpcomingMovies,
 } from "../api/tmdb";
 
 const Home = () => {
   const [trending, setTrending] = useState([1, 2, 3]);
-  const [upcoming, setUpcoming] = useState([1, 2, 3, 4]);
 
   const [nowPlaying, setNowPlaying] = useState();
   const [popular, setPopular] = useState();
   const [topRated, setTopRated] = useState();
+  const [upcoming, setUpcoming] = useState();
 
   const [loading, setLoading] = useState(true);
 
@@ -35,11 +36,17 @@ const Home = () => {
     setTopRated(data.results);
     setLoading(false);
   };
+  const getUpcomingMovies = async () => {
+    const data = await fetchUpcomingMovies();
+    setUpcoming(data.results);
+    setLoading(false);
+  };
 
   useEffect(() => {
     getNowPlayingMovies();
     getPopularMovies();
     getTopRatedMovies();
+    getUpcomingMovies();
   }, []);
 
   return (
@@ -56,6 +63,12 @@ const Home = () => {
           <MovieList
             title="popular"
             data={popular}
+          />
+        )}
+        {upcoming && (
+          <MovieList
+            title="upcoming"
+            data={upcoming}
           />
         )}
         {topRated && (

@@ -12,6 +12,8 @@ import { useState } from "react";
 import { COLORS, SIZES, SHADOWS, FONTS, assets } from "../constants";
 import { useNavigation } from "@react-navigation/native";
 
+import { baseImagePath } from "../api/tmdb";
+
 var { width, height } = Dimensions.get("window");
 const MovieCarousel = ({ title, data }) => {
   const [snapIndex, setSnapIndex] = useState(0);
@@ -52,7 +54,12 @@ const MovieCarousel = ({ title, data }) => {
         parallaxScrollingOffset={50}
         scrollAnimationDuration={1000}
         // onSnapToItem={}
-        renderItem={({ index }) => <MovieCard navigation={navigation} />}
+        renderItem={({ item, index }) => (
+          <MovieCard
+            navigation={navigation}
+            item={item}
+          />
+        )}
       />
     </View>
   );
@@ -72,8 +79,8 @@ const MovieCard = ({ focus, item, navigation }) => {
       <TouchableWithoutFeedback
         onPress={() => navigation.navigate("MovieScreen")}>
         <Image
-          source={require("../assets/images/LegoNinjagoMoviePoster2.png")}
-          // source={{uri:  }}
+          // source={require("../assets/images/LegoNinjagoMoviePoster2.png")}
+          source={{ uri: baseImagePath(item.poster_path) }}
           style={
             !focus
               ? {
